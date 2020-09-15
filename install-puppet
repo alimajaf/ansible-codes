@@ -1,0 +1,39 @@
+---
+- hosts: kubes
+  gather_facts: no
+  tasks:
+  - name: Get hostname
+    shell: echo $HOSTNAME
+    register: hostname
+  - name: install and enable epel
+    yum:
+      name: epel-release
+      state: latest
+
+  - name: install puppet
+    yum:
+      name:
+       - puppet
+      state: latest
+
+  - name: copy hosts file to all ha servers
+    copy:
+      src: /root/ansible/hosts_ha
+      dest: /etc/hosts
+      owner: root
+      group: root
+      mode: '0644'
+  - name: copy puppet config
+    copy:
+      src: /root/ansible/puppet.conf
+      dest: /etc/puppet/puppet.conf
+      owner: root
+      group: root
+      mode: '0644'
+
+
+  - name: Enable and restart the service puppet
+    service:
+      name: puppet
+      enabled: yes
+      state: restarted
