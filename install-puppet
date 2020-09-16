@@ -5,16 +5,18 @@
   - name: Get hostname
     shell: echo $HOSTNAME
     register: hostname
-  - name: install and enable epel
+  - name: install and enable repos
     yum:
-      name: epel-release
+      name:
+       - epel-release
+       - https://yum.puppet.com/puppet6-release-el-7.noarch.rpm
       state: latest
-
   - name: install puppet
     yum:
       name:
        - puppet
       state: latest
+
 
   - name: copy hosts file to all ha servers
     copy:
@@ -23,14 +25,19 @@
       owner: root
       group: root
       mode: '0644'
-  - name: copy puppet config
-    copy:
-      src: /root/ansible/puppet.conf
-      dest: /etc/puppet/puppet.conf
+
+  - name: puppet server update
+    lineinfile:
+      path: /etc/puppetlabs/puppet/puppet.conf
+      regexp: '^server '
+      line: server = controller
+  - name: Create a symbolic link for puppet
+    file:
+      src: /opt/puppetlabs/puppet/bin/puppet
+      dest: /usr/bin/puppet
       owner: root
       group: root
-      mode: '0644'
-
+      state: link
 
   - name: Enable and restart the service puppet
     service:
