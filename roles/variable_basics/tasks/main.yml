@@ -1,0 +1,21 @@
+- name: print message
+  ansible.builtin.debug:
+
+- name: print variable
+  ansible.builtin.debug:
+    msg: "printing the variable: {{ var_x }}"
+
+- name: print on condition
+  ansible.builtin.debug:
+    msg: "printing the variable: {{ var_x }}"
+  when: var_x
+
+- name: print in loop
+  ansible.builtin.debug:
+    msg: "printing the variable: {{ item }}"
+  loop: "{{fruits}}"
+
+- name: notifiy example
+  ansible.builtin.debug:
+    msg: "Restarting the service"
+  notify: restart

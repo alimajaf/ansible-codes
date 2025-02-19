@@ -1,0 +1,3 @@
+- name: restart
+  ansible.builtin.debug:
+    msg: "Restarted the service"
