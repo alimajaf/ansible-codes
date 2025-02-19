@@ -1,0 +1,11 @@
+- name: inline example
+  hosts: all
+  gather_facts: no
+
+  tasks:
+    - name: Modify root ligin in infile.config
+      ansible.builtin.lineinfile:
+        path: /root/demo/infile.config
+        regexp: '^rootLogin'   # Match the existing line
+        line: 'rootLogin yes'   # Replace with this new value
+        backup: yes                      # Creates a backup before editing

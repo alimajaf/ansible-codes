@@ -1,0 +1,6 @@
+- name: Basics
+  hosts: all
+  gather_facts: no
+
+  roles:
+    - variable_basics

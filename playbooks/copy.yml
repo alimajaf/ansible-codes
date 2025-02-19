@@ -1,0 +1,26 @@
+- name: copy module examples
+  hosts: all
+  gather_facts: no
+  vars: 
+    myName: Assist
+
+  tasks:
+    - name: Copy test.conf to remote server
+      ansible.builtin.copy:
+        src: /root/demo/test.conf
+        dest: /root/demo/test.conf
+        owner: root
+        group: root
+        mode: '0644'
+
+    - name: write to a file using copy
+      ansible.builtin.copy:
+        content: "Hey I am from Ansible"
+        dest: /root/demo/copyfile.txt
+
+# if you want variables inthe content that is possible too
+
+    - name: write variables to a file using copy
+      ansible.builtin.copy:
+        content: "Hey I am from Ansible and my name is {{myName}} \n"
+        dest: /root/demo/copyfile1.txt

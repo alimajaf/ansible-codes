@@ -1,0 +1,19 @@
+- name: shell and command examples
+  hosts: all
+  gather_facts: no
+
+  tasks:
+    - name: shell example
+      ansible.builtin.shell: 'ls -l /var'
+      register: shell_out
+    - name: print shell output 
+      ansible.builtin.debug:
+        var: shell_out.stdout_lines
+    - name: command example
+      ansible.builtin.command:  ls -l /var
+      register: command_out
+    - name: print command output 
+      ansible.builtin.debug:
+        var: command_out.stdout_lines
+
+# command will not support some characters like *

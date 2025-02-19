@@ -1,0 +1,14 @@
+- name: Check if system is Debian or CentOS
+  hosts: all
+  tasks:
+    - name: get and print os type from facts
+      ansible.builtin.debug:
+        var: ansible_os_family
+    - name: Get OS information
+      ansible.builtin.shell: "source /etc/os-release && echo $ID"
+      executable: /bin/bash
+      register: os_type
+      changed_when: false
+    - name: print os type
+      ansible.builtin.debug:
+        var: os_type.stdout_lines
